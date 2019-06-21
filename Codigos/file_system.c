@@ -13,7 +13,7 @@
 #define LFS_MAGIC 0x19920342
 #define TMPSIZE 20
 
-MODULE_LICENCE("GPL");
+//MODULE_LICENCE("GPL");
 MODULE_AUTHOR("Miller Monteiro and Rodrigo Andrade");
 MODULE_DESCRIPTION("The implementation of a Linux File System");
 MODULE_VERSION("0.1");
