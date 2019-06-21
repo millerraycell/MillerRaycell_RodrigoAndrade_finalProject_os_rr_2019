@@ -1,4 +1,4 @@
-obj-m+=enigma_fs.o
+obj-m+=file_system.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules
