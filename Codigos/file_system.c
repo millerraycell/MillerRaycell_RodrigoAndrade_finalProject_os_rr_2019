@@ -32,6 +32,7 @@ static struct inode *lfs_make_inode(struct super_block *sb, int mode, const stru
         inode->i_atime = inode->i_mtime = inode->i_ctime = current_time(inode);
         inode->i_fop = fops;
         inode->i_ino = get_next_ino();
+		printk(KERN_INFO "I NODE INICIALIZADO\n");
 	return inode;
 
 }
@@ -43,6 +44,7 @@ static struct inode *lfs_make_inode(struct super_block *sb, int mode, const stru
  */
 static int lfs_open(struct inode *inode, struct file *filp)
 {
+	printk(KERN_INFO "ARQUIVO ABERTO\n");
 	filp->private_data = inode->i_private;
 	return 0;
 }
@@ -78,6 +80,8 @@ static ssize_t lfs_read_file(struct file *filp, char *buf, size_t count, loff_t 
 	if (copy_to_user(buf, tmp + *offset, count))
 		return -EFAULT;
 	*offset += count;
+	printk(KERN_INFO "LEITURA DO VALOR %ld FEITA COM SUCESSO\n",count);
+	printk(KERN_INFO "ARQUIVO ATUALIZADO\n");
 	return count;
 }
 
@@ -85,7 +89,7 @@ static ssize_t lfs_read_file(struct file *filp, char *buf, size_t count, loff_t 
  * Função que realiza a escrita em um arquivo, essa função lê
  * o que o usuário inseriu e atualiza o arquivo a partir do começo do arquivo
  */
-static ssize_t lfs_write_file(struct file *filp, const char *buf,size_t count, loff_t *offset)
+static ssize_t lfs_write_file(struct file *filp, const char *buf, size_t count, loff_t *offset)
 {
 	atomic_t *counter = (atomic_t *) filp->private_data;
 	char tmp[TMPSIZE];
@@ -97,6 +101,7 @@ static ssize_t lfs_write_file(struct file *filp, const char *buf,size_t count, l
 	if (copy_from_user(tmp, buf, count))
 		return -EFAULT;
 	atomic_set(counter, simple_strtol(tmp, NULL, 10));
+	printk(KERN_INFO "ESCRITA DO VALOR %ld FEITA COM SUCESSO\n",count);
 	return count;
 }
 
@@ -200,9 +205,10 @@ static void lfs_create_files (struct super_block *sb, struct dentry *root)
     * E no subdiretório
     */
 	atomic_set(&subcounter, 0);
-	subdir = lfs_create_dir(sb, root, "subdir");
+	subdir = lfs_create_dir(sb, root, "subdiretorio");
 	if (subdir)
 		lfs_create_file(sb, subdir, "subcounter", &subcounter);
+	printk(KERN_INFO "DIRETORIO CRIADO COM SUCESSO\n");
 }
 
 
@@ -259,6 +265,8 @@ static int lfs_fill_super (struct super_block *sb, void *data, int silent)
     */
 	lfs_create_files (sb, root_dentry);
 	sb->s_root = root_dentry;
+	printk(KERN_INFO "USUARIO ROOT CRIADO COM SUCESSO\n");
+
 	return 0;
 	
     out_iput:
@@ -289,6 +297,7 @@ static struct file_system_type lfs_type = {
  */
 static int __init lfs_init(void)
 {
+	printk(KERN_INFO "INICIANDO O ENGIMA FILE SYSTEM\n");
 	return register_filesystem(&lfs_type);
 }
 
@@ -297,6 +306,7 @@ static int __init lfs_init(void)
  */
 static void __exit lfs_exit(void)
 {
+	printk(KERN_INFO "ENCERRANDO O ENGIMA FILE SYSTEM\n");
 	unregister_filesystem(&lfs_type);
 }
 
