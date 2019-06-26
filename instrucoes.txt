@@ -1,0 +1,65 @@
+Executando:
+
+	Abra um o terminal na pasta do repositório.
+
+		1 - cd Codigos
+
+		2 - pwd (Copie o diretório, pois precisaremos mais a frente)
+
+		3 - make
+
+		4 - sudo insmod file_system.ko
+
+		5 - sudo mount -t engima none [Local foi copiado no passo 1]
+
+			Para verificar se o sistema de arquivos foi inserido de forma correta,
+			insira o comando
+
+				1 - mount
+
+			Esse comando demonstra todos os sistemas de arquivos viculados e a ultima
+			linha deve apresentar o sistema de arquivos ENIGMA e o seu diretório
+
+	Pronto, a partir deste ponto o sistema de arquivos foi montado,
+	para acessá-lo e verificar as pastas criadas:
+
+		1 - cd ..
+
+		2 - cd Codigos
+
+		3 - ls
+
+	Para verificar a leitura e escrita
+
+		Opção 1: Verificar os logs do Kernel:
+
+		1 - dmesg
+
+		Opção 2:
+
+		1 - cd Teste
+
+		repetir quantas vezes desejar {
+			
+			2 - cat subcounter
+		}
+		Com a opção dois, pode se observar o valor sendo atualizado no arquivo
+
+	Para desmontar o sistema de arquivos:
+
+		1 - sudo fuser -k -9 [Local que foi copiado no começo da execução]
+
+		Nesse moment o terminal será encerrado, já que esse terminal estava sendo
+		utilizado como root do sistema de arquivos e o comando fuser -k -9 encerra
+		todos os processos
+
+		Abra um novo terminal, e insira o comando:
+
+		2 - sudo umount [Local que havia sido copiado no início da execução]
+
+		3 - sudo rmmod file_system
+
+		Pronto, agora o sistema de arquivos foi desvinculado do kernel, e se você atualizar
+		a pasta Codigos no diretório observará somente os arquivos gerados pelo make.
+
+MUITO OBRIGADO POR USAR O ENGIMA FILE SYSTEM :)
