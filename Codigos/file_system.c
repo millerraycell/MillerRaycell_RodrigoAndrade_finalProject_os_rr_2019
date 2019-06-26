@@ -80,7 +80,7 @@ static ssize_t lfs_read_file(struct file *filp, char *buf, size_t count, loff_t 
 	if (copy_to_user(buf, tmp + *offset, count))
 		return -EFAULT;
 	*offset += count;
-	printk(KERN_INFO "LEITURA DO VALOR %ld FEITA COM SUCESSO\n",count);
+	printk(KERN_INFO "LEITURA DO VALOR %ld FEITA COM SUCESSO\n",counter);
 	printk(KERN_INFO "ARQUIVO ATUALIZADO\n");
 	return count;
 }
@@ -101,7 +101,7 @@ static ssize_t lfs_write_file(struct file *filp, const char *buf, size_t count, 
 	if (copy_from_user(tmp, buf, count))
 		return -EFAULT;
 	atomic_set(counter, simple_strtol(tmp, NULL, 10));
-	printk(KERN_INFO "ESCRITA DO VALOR %ld FEITA COM SUCESSO\n",count);
+	printk(KERN_INFO "ESCRITA DO VALOR %ld FEITA COM SUCESSO\n",counter);
 	return count;
 }
 
@@ -205,7 +205,7 @@ static void lfs_create_files (struct super_block *sb, struct dentry *root)
     * E no subdiretório
     */
 	atomic_set(&subcounter, 0);
-	subdir = lfs_create_dir(sb, root, "subdiretorio");
+	subdir = lfs_create_dir(sb, root, "Teste");
 	if (subdir)
 		lfs_create_file(sb, subdir, "subcounter", &subcounter);
 	printk(KERN_INFO "DIRETORIO CRIADO COM SUCESSO\n");
